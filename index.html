@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Self-Care Assessment Worksheet</title>
+    <style>
+      section {
+        margin-bottom: 3rem;
+      }
+
+      .mb-1 {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Self-Care Assessment</h1>
+    </header>
+
+    <main>
+      <p>
+        This assessment tool provides an overview of effective strategies to maintain self-care. After completing the full assessment, choose one item from each
+        area that you will actively work to improve.
+      </p>
+
+      <p>Using the scale below, rate the following areas in terms of frequency:</p>
+      <div>5 = Frequently</div>
+      <div>4 = Occasionally</div>
+      <div>3 = Rarely</div>
+      <div>2 = Never</div>
+      <div>1 = It never occurred to me</div>
+
+      <div id="assessment" class="mb-1"></div>
+      <button id="clearSelections" class="mb-1">Clear Selections</button>
+    </main>
+    <footer>Source: Transforming the Pain: A Workbook on Vicarious Traumatization. Saakvitne, Pearlman & Staff of TSI/CAAP (Norton, 1996)</footer>
+
+    <script>
+      var sections = loadSections();
+      renderSections(assessment, sections);
+      clearSelections.onclick = reset;
+
+      /**
+       * Resets the assessment to its initial state.
+       */
+      function reset() {
+        var shouldReset = confirm("Please confirm that you wish to clear your selections");
+        if (shouldReset) {
+          window.localStorage.removeItem('sections');
+          sections = loadSections();
+          renderSections(assessment, sections);
+        }
+      }
+
+      /**
+       * Loads questionnaire sections from local storage or creates new sections if none exist
+       * @returns {Array} Array of questionnaire sections
+       */
+      function loadSections() {
+        var sections = window.localStorage.getItem("sections");
+        if (sections) {
+          return JSON.parse(sections);
+        } else {
+          return [
+            {
+              title: "Physical Self-Care",
+              items: [
+                { title: "Eat regularly (e.g. breakfast, lunch and dinner)" },
+                { title: "Eat healthy" },
+                { title: "Exercise" },
+                { title: "Get regular medical care for prevention" },
+                { title: "Get medical care when needed" },
+                { title: "Take time off when needed" },
+                { title: "Get massages" },
+                { title: "Dance, swim, walk, run, play sports, sing, or do some other physical activity that is fun" },
+                { title: "Take time to be sexual—with yourself, with a partner" },
+                { title: "Get enough sleep" },
+                { title: "Wear clothes you like" },
+                { title: "Take vacations" },
+                { title: "Take day trips or mini-vacations" },
+                { title: "Make time away from telephones" },
+                { title: "Other:", other: true, otherTitle: "" },
+              ],
+            },
+            {
+              title: "Psychological Self-Care",
+              items: [
+                { title: "Make time for self-reflection" },
+                { title: "Have your own personal psychotherapy" },
+                { title: "Write in a journal" },
+                { title: "Read literature that is unrelated to work" },
+                { title: "Do something at which you are not expert or in charge" },
+                { title: "Decrease stress in your life" },
+                { title: "Let others know different aspects of you" },
+                { title: "Notice your inner experience—listen to your thoughts, judgments, beliefs, attitudes, and feelings" },
+                { title: "Engage your intelligence in a new area, e.g. go to an art museum, history exhibit, sports event, auction, theater performance" },
+                { title: "Practice receiving from others" },
+                { title: "Be curious" },
+                { title: "Say “no” to extra responsibilities sometimes" },
+                { title: "Other:", other: true, otherTitle: "" },
+              ],
+            },
+            {
+              title: "Emotional Self-Care",
+              items: [
+                { title: "Spend time with others whose company you enjoy" },
+                { title: "Stay in contact with important people in your life" },
+                { title: "Give yourself affirmations, praise yourself" },
+                { title: "Love yourself" },
+                { title: "Re-read favorite books, re-view favorite movies" },
+                { title: "Identify comforting activities, objects, people, relationships, places and seek them out" },
+                { title: "Allow yourself to cry" },
+                { title: "Find things that make you laugh" },
+                { title: "Express your outrage in social action, letters and donations, marches, protests" },
+                { title: "Play with children" },
+                { title: "Other:", other: true, otherTitle: "" },
+              ],
+            },
+            {
+              title: "Spiritual Self-Care",
+              items: [
+                { title: "Make time for reflection" },
+                { title: "Spend time with nature" },
+                { title: "Find a spiritual connection or community" },
+                { title: "Be open to inspiration" },
+                { title: "Cherish your optimism and hope" },
+                { title: "Be aware of nonmaterial aspects of life" },
+                { title: "Try at times not to be in charge or the expert" },
+                { title: "Be open to not knowing" },
+                { title: "Identify what in meaningful to you and notice its place in your life" },
+                { title: "Meditate" },
+                { title: "Pray" },
+                { title: "Sing" },
+                { title: "Spend time with children" },
+                { title: "Have experiences of awe" },
+                { title: "Contribute to causes in which you believe" },
+                { title: "Read inspirational literature (talks, music, etc.)" },
+                { title: "Other:", other: true, otherTitle: "" },
+              ],
+            },
+            {
+              title: "Workplace or Professional Self-Care",
+              items: [
+                { title: "Take a break during the workday (e.g. lunch)" },
+                { title: "Take time to chat with co-workers" },
+                { title: "Make quiet time to complete tasks" },
+                { title: "Identify projects or tasks that are exciting and rewarding" },
+                { title: "Set limits with your clients and colleagues" },
+                { title: "Balance your caseload so that no one day or part of a day is “too much”" },
+                { title: "Arrange your work space so it is comfortable and comforting" },
+                { title: "Get regular supervision or consultation" },
+                { title: "Negotiate for your needs (benefits, pay raise)" },
+                { title: "Have a peer support group" },
+                { title: "Develop a non-trauma area of professional interest" },
+                { title: "Other:", other: true, otherTitle: "" },
+              ],
+            },
+            {
+              title: "Balance",
+              items: [
+                { title: "Strive for balance within your work-life and workday" },
+                { title: "Strive for balance among work, family, relationships, play and rest" },
+              ],
+            },
+          ];
+        }
+      }
+
+      /**
+       * Saves questionnaire responses to local storage
+       * @param {Array} sections
+       */
+      function saveSections(sections) {
+        window.localStorage.setItem("sections", JSON.stringify(sections));
+      }
+
+      /**
+       * Renders self-care assessment questionnaire
+       * @param {HTMLDivElement} assessment
+       * @param {Array} sections
+       */
+      function renderSections(node, sections) {
+        var htmlSections = sections.map(function (section) {
+          var title = h("h2", null, section.title);
+          var items = section.items.map(function (item) {
+
+            function handleSelectChange(ev) {
+              item.value = ev.target.value;
+              saveSections(sections);
+            }
+
+            function handleOtherTitleChange(ev) {
+              item.otherTitle = ev.target.value;
+              saveSections(sections);
+            }
+
+            return h("label", null, [
+              h("select", { name: item.title, onchange: handleSelectChange }, [
+                h("option", { selected: !item.value, value: "", hidden: true }, "(Select)"),
+                h("option", { selected: item.value === "5", value: 5 }, "5 = Frequently"),
+                h("option", { selected: item.value === "4", value: 4 }, "4 = Occasionally"),
+                h("option", { selected: item.value === "3", value: 3 }, "3 = Rarely"),
+                h("option", { selected: item.value === "2", value: 2 }, "2 = Never"),
+                h("option", { selected: item.value === "1", value: 1 }, "1 = It never occurred to me"),
+              ]),
+              " ",
+              item.title,
+              " ",
+              item.other && h("input", { size: 80, value: item.otherTitle || "", onchange: handleOtherTitleChange }),
+              h("br"),
+            ]);
+          });
+          return h("section", null, [title].concat(items));
+        });
+
+        replaceChildren(node, htmlSections);
+      }
+
+      /**
+       * Replaces all children of a node with new children
+       * @param {HTMLElement} node
+       * @param {Array} children
+       */
+      function replaceChildren(node, children) {
+        removeChildren(node);
+        for (var i = 0; i < children.length; i++) {
+          node.appendChild(children[i]);
+        }
+      }
+
+      /**
+       * Removes all children from a node.
+       * @param {Node} node
+       */
+      function removeChildren(node) {
+        while (node.firstChild) {
+          node.removeChild(node.firstChild);
+        }
+      }
+
+      /**
+       * Creates a DOM element.
+       * @param {string} tagName
+       * @param {Object} properties
+       * @param {Array<Element|string|number>} children
+       * @return {Element}
+       */
+      function h(tagName, props, children) {
+        props = props || {};
+        children = children || [];
+        if (!Array.isArray(children)) children = [children];
+
+        var el = document.createElement(tagName);
+
+        for (var key in props || {}) {
+          el[key] = props[key];
+        }
+
+        for (var i = 0; i < children.length; i++) {
+          var child = children[i];
+          if (child === false || child === null || child === undefined) continue;
+          if (!(child instanceof Element)) child = document.createTextNode(child);
+          el.appendChild(child);
+        }
+        return el;
+      }
+    </script>
+  </body>
+</html>
